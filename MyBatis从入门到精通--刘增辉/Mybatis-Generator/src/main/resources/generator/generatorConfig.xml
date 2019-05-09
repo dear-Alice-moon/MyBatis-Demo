@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration 
+	PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" 
+	"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd ">
+	
+<generatorConfiguration>
+	 
+	<!-- targetRuntime="MyBatis3Simple" 参数配置，生成的路径是 test01.xml、test01.dao、test01.model -->
+	<!-- <context id="MySqlContext" targetRuntime="MyBatis3Simple" defaultModelType="flat"> -->
+	<context id="MySqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+	 	
+	 	<!-- 自动给关键字添加分隔符 -->
+	 	<!-- <property name="autoDelimitKeywords" value="true"/> -->
+	 	<!-- 配置前置分隔符属性 -->
+	 	<property name="beginningDelimiter" value="`"></property>
+	 	<!-- 配置后置分隔符属性 -->
+	 	<property name="endingDelimiter" value="`"></property>
+	 	<!-- 生成Java文件编码 -->
+		<property name="javaFileEncoding" value="UTF-8"/>
+		<!-- 格式化Java代码 -->
+		<property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+		
+	 	
+	 	<!-- 
+	 		plugin插件标签：配置插件信息   
+	 			1、当 context标签中 targetRuntime属性值为MyBatis3时，该插件有效。
+	 			2、英文文档：http://www.mybatis.org/generator/reference/plugins.html
+	 	 -->
+	 	<!--  
+	 	<plugin type="org.mybatis.generator.plugins.CachePlugin">
+	 		<property name="cache_eviction" value="LRU"/>
+	 		<property name="cache_size" value="1024"/>
+	 	</plugin>
+	 	 -->
+	 	
+	 	
+	 	<!-- 
+	 		commentGenerator标签：配置如何生成注释信息
+	 		注意：在这里，type中的java类是自定义实现的注释生成器
+	 	 -->
+	 	<commentGenerator type="com.moon.mybatis.generator.MyCommentGenerator">
+	 		<!-- 生成的注释包含时间戳 -->
+	 		<property name="suppressDate" value="true"/>
+	 		<property name="addRemarkComments" value="true"/>
+	 		<property name="suppressAllComments" value="true"/><!-- 该行代码用于取消MBG生成的注释 -->
+	 	</commentGenerator>
+	 	
+	 	
+	 	<!-- 
+	 		jdbcConnection标签：jdbcConnection用于指定MBG要连接的数据库信息.
+	 		
+	 	 -->
+	 	<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/mybatis"
+	 					userId="root"
+	 					password="root">
+	 		
+	 		<!-- 
+	 			MBG是通过JDBC的DatabaseMetaData 方式来获取数据库表和字段的备注信息，但大多数JDBC驱动不支持.
+	 			MySQL数据库支持、SQL Server数据库不支持，Oracle数据库通过配置下行 property属性，可以支持.
+	 		 	该 property 标签配置了 Oracle的 remarksReporting属性，使得JDBC方式可以获取注释信息. 
+	 		 -->			
+	 		<!-- <property name="remarksReporting" value="true"/> -->
+	 		
+	 	</jdbcConnection>
+	 	
+	 	
+	 	<!-- 
+	 		javaModelGenerator标签：该标签用来控制生产的实体类. 
+	 		注意：推荐一张表对应一个实体类.  
+	 	 -->
+	 	<javaModelGenerator targetPackage="test04.model" targetProject="src\main\java">
+	 		<property name="trimStrings" value="true"/>
+	 	</javaModelGenerator>
+	 	
+	 	
+	 	<!-- 
+	 		sqlMapGenerator标签：该标签用于配置SQL映射生成器(Mapper.xml文件)的属性. 
+	 	 -->
+	 	<sqlMapGenerator targetPackage="test04.xml" targetProject="src\main\resources" />
+	 	
+	 	
+	 	<!-- 
+	 		javaClientGenerator标签：该标签用于配置Java客户端生成器(Mapper接口)的属性.              
+	 		targetPackage属性：指定Mapper接口包路径;
+	 		implementactionPackage属性：指定Mapper接口的实现类包路径.
+	 	 -->
+	 	<javaClientGenerator type="XMLMAPPER" targetPackage="test04.dao" implementationPackage="test04.dao.impl"  targetProject="src\main\java" />
+	 	
+	 	
+	 	<!-- 
+	 		table标签：该标签用于配置需要通过内省数据库的表. 
+	 	 -->
+	 	<table tableName="%" enableCountByExample="false" enableDeleteByExample="false" 
+	 			enableSelectByExample="false" enableUpdateByExample="false"
+	 			enableDeleteByPrimaryKey="false" enableInsert="false"
+	 			enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="false" >
+	 		
+	 		<!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/> -->
+	 		
+	 	</table>
+	 	
+	 	
+	</context>
+	
+	
+</generatorConfiguration>
+

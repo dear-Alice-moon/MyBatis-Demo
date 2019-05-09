@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moon.mybatis.mapper.SysUserMapper">
+	
+	<!-- 使用别名可以避免每次都输入类路径全称 -->
+	<resultMap id="userMap" type="com.moon.mybatis.pojo.SysUser">
+		<id property="id" column="id"/>
+		<result property="userName" column="user_name"/>
+		<result property="userPassword" column="user_password"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userInfo" column="user_info"/>
+		<result property="headImg" column="head_img" jdbcType="BLOB"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>  <!-- 共7个字段 -->
+	</resultMap>
+	
+	
+	
+	<!-- Mybatis框架，多数据库支持.  @moon  2019/02/17  21:16 -->
+	<select id="selectSysUserByUser4" parameterType="com.moon.mybatis.pojo.SysUser" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		FROM sys_user 
+		<where>
+			<if test="userName != null and userName != ''">
+				<if test="_databaseId == 'mysql'">
+					AND user_name LIKE CONCAT('%', #{userName}, '%')
+				</if>
+				<if test="_databaseId == 'oracle'">
+					AND user_name LIKE '%'||#{userName}||'%'
+				</if>
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				AND user_email = #{userEmail}
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- bind标签，使用OGNL表达式根据userName模糊查询SysUser信息.  @moon  2019/02/17  19:58 -->
+	<!-- 
+		讲解：使用OGNL表达式，可以避免"Mysql数据库更换为Oracle数据库，SQL语句重写." 的情况，提高SQL语句的可重用性.
+		           使用bind标签，也可以预防SQL注入. 
+	 -->
+	<select id="selectSysUserByUser3" parameterType="com.moon.mybatis.pojo.SysUser" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		FROM sys_user 
+		<where>
+			<if test="userName != null and userName !=''">
+				<bind name="userNameLike" value="'%' + userName + '%'"/>
+				and user_name LIKE #{userNameLike}
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- foreach标签，Map<K, V>参数，更新SysUser信息.  @moon  2019/02/16  21:08 -->
+	<update id="updateSysUserByUserMap" parameterType="java.util.Map">
+		UPDATE sys_user
+		SET 
+		<foreach collection="_parameter" item="val" index="keyy" separator=",">
+			${keyy}=#{val}
+		</foreach>
+		WHERE id=#{id}
+	</update>
+	
+	
+	<!-- foreach标签，Map<K, V>参数，批量插入数据.  @moon  2019/02/16  18:01 -->
+	<!-- 
+		注意: 1、验证 ${key}不可被 #{key}替代，否则报错.  @moon  2019/02/16  19:19         
+		      2、对比 #{userMaps[${key}]}、#{value}
+	 -->
+	<insert id="insertSysUserMap4" parameterType="java.util.Map">
+		INSERT INTO sys_user
+		<foreach collection="userMaps" item="keyy" index="key2" open="(" close=")" separator=",">
+			${key2}
+		</foreach>	
+		VALUES
+		<foreach collection="userMaps" item="valuee" index="value_2" open="(" close=")" separator=",">
+			#{valuee}
+		</foreach>
+	</insert>
+	
+	
+	<!-- foreach标签，Map<K, V>参数，插入数据.  @moon  2019/02/16  18:01 -->
+	<!-- 
+		注意: 1、验证 ${key}不可被 #{key}替代，否则报错.  @moon  2019/02/16  19:19         
+		      2、对比 #{userMaps[${key}]}、#{value}
+		      
+		备注：该sql语句实则为重复sql语句!  @moon  2019/02/16  21:01               
+	 -->
+	<insert id="insertSysUserMap3" parameterType="java.util.Map">
+		INSERT INTO sys_user
+		<foreach collection="userMaps.keys" item="keyy" index="key2" open="(" close=")" separator=",">
+			${keyy}
+		</foreach>	
+		VALUES
+		<foreach collection="userMaps.values" item="valuee" index="value_2" open="(" close=")" separator=",">
+			#{valuee}
+		</foreach>
+	</insert>
+	
+	
+	<!-- foreach标签，Map<K, V>参数，插入数据.  @moon  2019/02/16  18:01 -->
+	<!-- 
+		注意: 1、验证 ${key}不可被 #{key}替代，否则报错.  @moon  2019/02/16  19:19         
+		      2、#{userMaps[${key}]}
+	 -->
+	<insert id="insertSysUserMap2" parameterType="java.util.Map">
+		INSERT INTO sys_user
+		<foreach collection="userMaps.keys" item="keyy" open="(" close=")" separator=",">
+			${keyy}
+		</foreach>	
+		VALUES
+		<foreach collection="userMaps.values" item="valuee" open="(" close=")" separator=",">
+			#{valuee}
+		</foreach>
+	</insert>
+	
+	
+	<!-- foreach标签，Map<K, V>参数，插入数据.  @moon  2019/02/16  18:01 -->
+	<!-- 
+		注意: 1、验证 ${key}不可被 #{key}替代，否则报错.  @moon  2019/02/16  19:19         
+		      2、对比 #{userMaps[${key}]}、#{value}
+	 -->
+	<insert id="insertSysUserMap" parameterType="java.util.Map">
+		INSERT INTO sys_user
+		<foreach collection="userMaps.keys" item="key" open="(" close=")" separator=",">
+			${key}
+		</foreach>	
+		VALUES
+		<foreach collection="userMaps.keys" item="key" open="(" close=")" separator=",">
+			#{userMaps[${key}]}
+		</foreach>
+	</insert>
+	
+	
+	<!-- foreach标签，List<T>参数，插入数据.  @moon  2019/02/16  17:40 -->
+	<!-- 
+		说明：目前仅Mysql数据库支持在批量插入数据过程中，可批量返回自增主键id值。
+		           配置 useGeneratedKeys、keyProperty这2个参数，其目的是批量返回插入信息的自增主键. 
+	 -->
+	<insert id="insertSysUserList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sys_user(
+			user_name, user_password, user_email,
+			user_info, head_img, create_time
+		) VALUES
+		<foreach collection="list" item="user" separator=",">
+			(
+				#{user.userName}, #{user.userPassword}, #{user.userEmail},
+				#{user.userInfo}, #{user.headImg, jdbcType=BLOB},
+				#{user.createTime, jdbcType=TIMESTAMP}
+			)
+		</foreach>
+	</insert>
+	
+	
+	<!-- foreach标签，多个Map<K, T>参数，实现IN集合，动态插入数据.  @moon  2019/02/16  16:17 -->
+	<!-- 
+		讲解：在传递Map<K, V>参数时，foreach标签中的index参数可省略.
+	 -->
+	<select id="selectSysUserByIdMapAndUsernameMap" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		FROM sys_user
+		WHERE id IN
+		<foreach collection="idMaps" open="(" close=")" separator="," item="id" index="idMaps.key">
+			#{id}
+		</foreach>
+		OR user_name IN
+		<foreach collection="userNameMaps" open="(" close=")" separator="," item="userName" index="userNameMaps.key">
+			#{userName}
+		</foreach>
+	</select>
+	
+	
+	<!-- foreach标签，单个Map<K, T>参数，实现IN集合，动态插入数据.  @moon  2019/02/16  16:16 -->
+	<!-- 
+		讲解：在传递Map<K, V>参数时，foreach标签中的index参数可省略.
+	 -->
+	<select id="selectSysUserByIdMap" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		FROM sys_user
+		WHERE id IN
+		<foreach collection="idMaps" open="(" close=")" separator="," item="id" index="idMaps.key">
+			#{id}
+		</foreach>
+	</select>
+	
+	
+	<!-- foreach标签，Array[]数组，实现IN集合，动态插入数据.  @moon  2019/02/16  16:12 -->
+	<select id="selectSysUserByIdArray" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		FROM sys_user
+		WHERE id IN
+		<foreach collection="array" open="(" close=")" separator="," item="id" index="i">
+			#{id}
+		</foreach>
+	</select>
+	
+	
+	<!-- foreach标签，多个List<T>参数，实现IN集合，动态插入数据.  @moon  2019/02/16  16:11 -->
+	<select id="selectSysUserByIdListAndUsernameList" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		FROM sys_user
+		WHERE id IN
+		<foreach collection="idLists" open="(" close=")" separator="," item="id" index="i">
+			#{id}
+		</foreach>
+		OR user_name IN
+		<foreach collection="userNameLists" open="(" close=")" separator="," item="userName" index="i">
+			#{userName}
+		</foreach>
+	</select>
+	
+	
+	<!-- foreach标签，单个List<T>参数，实现IN集合，动态插入数据.  @moon  2019/02/16  15:47 -->
+	<select id="selectSysUserByIdList" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		FROM sys_user
+		WHERE id IN
+		<foreach collection="list" open="(" close=")" separator="," item="id" index="i">
+			#{id}
+		</foreach>
+	</select>
+	
+	
+	<!-- choose|when|otherwise标签，动态插入数据.  @moon  2019/02/16  11:43 -->
+	<!--
+		查询条件： 当参数id有值时优先使用id查询，当id无值时根据userName进行查询. 当userName也无值时，使sql查询无结果.  
+		讲解：choose|when|otherwise标签类似于 if...else标签. choose标签中至少有一个when标签，otherwise标签有0个或1个.
+	 -->
+	<select id="selectSysUserByIdOrUserName" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		FROM sys_user 
+		WHERE 1=1
+		<choose>
+			<when test="id != null">
+				and id = #{id}
+			</when>
+			<when test="userName != null and userName != ''">
+				and user_name = #{userName}				
+			</when>
+			<otherwise>
+				and 1 = 2
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<!-- if标签，动态插入数据  @moon  2019/02/15  16:53 -->
+	<!-- 
+		关键点: INSERT中列部分增加if条件， 则values部分也要增加相同的if条件，保证上下互相对应，完全匹配.    
+	 -->
+	<insert id="insertSysUser" useGeneratedKeys="true" keyProperty="id">
+	<!-- <insert id="insertSysUser"> 不可返回自增id值 -->
+		INSERT INTO sys_user(
+			user_name, user_password,
+			<if test="userEmail != null and userEmail != ''">
+				user_email, 
+			</if>
+			user_info, head_img, create_time
+		) VALUES(
+			#{userName}, #{userPassword},
+			<if test="userEmail !=null and userEmail !=''">
+				#{userEmail}, 
+			</if>
+			#{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	
+	<!-- set|if标签，根据主键更新SysUser信息  @moon  2019/02/16  16:10 -->
+	<!-- 
+		关键点：where关键字前面的 id=#{id}这个条件，不可缺少.
+		若where关键字前面无id=#{id}, 则当所有的更新条件为null时，SQL语句会是：UPDATE sys_user SET WHERE id=#{id}, 这显然是不符合SQL语句规范.
+		在这里set标签的作用是保证SQL后面的逗号没有问题，类似于 id=#{id}这样必然存在的赋值仍然有保留的必要.          
+	-->
+	<update id="updateSysUserByIdSelective2" parameterType="com.moon.mybatis.pojo.SysUser">
+		UPDATE sys_user
+		<set>          
+			<if test="userName != null and userName != ''">
+				user_name = #{userName},
+			</if>
+			<if test="userPassword != null and userPassword != ''">
+				user_password = #{userPassword},
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				user_email = #{userEmail},
+			</if>
+			<if test="userInfo != null and userInfo != ''">
+				user_info = #{userInfo},
+			</if>
+			<if test="headImg != null">
+				head_img = #{headImg, jdbcType=BLOB},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime, jdbcType=TIMESTAMP}, 
+			</if>
+			id = #{id},
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- if标签，根据主键更新SysUser信息  @moon  2019/02/15  15:35 -->
+	<!-- 
+		关键点：where关键字前面的 id=#{id}这个条件，不可缺少.
+		若where关键字前面无id=#{id}, 则当所有的更新条件为null时，SQL语句会是：UPDATE sys_user SET WHERE id=#{id}, 这显然是不符合SQL语句规范.  
+	 -->
+	<update id="updateSysUserByIdSelective" parameterType="com.moon.mybatis.pojo.SysUser">
+		UPDATE sys_user
+		SET 
+			<if test="userName != null and userName != ''">
+				user_name = #{userName},
+			</if>
+			<if test="userPassword != null and userPassword != ''">
+				user_password = #{userPassword},
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				user_email = #{userEmail},
+			</if>
+			<if test="userInfo != null and userInfo != ''">
+				user_info = #{userInfo},
+			</if>
+			<if test="headImg != null">
+				head_img = #{headImg, jdbcType=BLOB},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime, jdbcType=TIMESTAMP}, 
+			</if>
+			id = #{id}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- if标签，根据动态条件查询用户信息    @moon  2019/02/15  14:25 -->
+	<!-- 
+		讲解：如果where后面的字符串是以 AND 和 OR 开头的，则会自动将其剔除.           
+	 -->
+	<select id="selectSysUserByUser2" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		FROM sys_user
+		<where>
+			<if test="userName != null and userName != ''">
+				AND user_name LIKE CONCAT('%', #{userName}, '%')
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				AND user_email = #{userEmail}           
+			</if>
+		</where> 		
+	</select>
+	
+	
+	<!-- if标签，根据动态条件查询用户信息    @moon  2019/02/15  11:04 -->
+	<!-- 
+		注意，未使用where标签时， 1=1 判断条件不可少。因为当 userName、userEmail都不存在时，Sql语句以where结束，不符合sql规范。
+	 -->
+	<select id="selectSysUserByUser" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		FROM sys_user
+		where 1 = 1
+			<if test="userName != null and userName != ''">
+				AND user_name LIKE CONCAT('%', #{userName}, '%')
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				AND user_email = #{userEmail}           
+			</if>		
+	</select>
+	
+	
+	<select id="selectSysUserById" parameterType="java.lang.Long" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT id, 
+			 user_name userName, 
+			 user_password userPassword, 
+			 user_email userEmail,
+			 user_info userInfo,
+			 head_img headImg,
+			 create_time createTime
+		FROM sys_user
+		WHERE id = #{id}
+	</select>
+	
+</mapper>

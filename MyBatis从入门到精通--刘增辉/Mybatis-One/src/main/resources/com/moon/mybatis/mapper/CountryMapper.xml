@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace属性定义了当前XML的命名空间 -->
+<mapper namespace="com.moon.mybatis.mapper.CountryMapper">
+	
+	<!-- 全表数据查询
+		id属性：定义了当前SELECT查询的唯一一个id
+		resultType属性：定义了当前查询的返回值类型，此处就是指实体类 Country。在mybatis-config.xml文件
+		中配置的别名主要用于这里。若没有设置别名，则resultType中的为: com.moon.mybatis.mode.Country                           
+	 -->
+	<select id="selectAll" resultType="Country">
+		SELECT id, country_name, country_code
+		FROM country
+	</select>
+	
+	
+</mapper>

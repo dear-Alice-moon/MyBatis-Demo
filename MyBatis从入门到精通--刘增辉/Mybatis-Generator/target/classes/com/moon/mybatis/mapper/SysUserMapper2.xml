@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moon.mybatis.mapper.SysUserMapper2">
+	
+	<!-- 使用别名可以避免每次都输入类路径全称 -->
+	<resultMap id="userMap" type="com.moon.mybatis.pojo.SysUser">
+		<id property="id" column="id"/>
+		<result property="userName" column="user_name"/>
+		<result property="userPassword" column="user_password"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userInfo" column="user_info"/>
+		<result property="headImg" column="head_img" jdbcType="BLOB"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>  <!-- 共7个字段 -->
+	</resultMap>
+	
+	
+	
+	
+	<!-- 新增数据 @moon  2019/02/02  21:39 -->
+	<!-- 
+		注意，这是Oracle数据库的写法，通过新增一个实体类信息，来获取新增实体类的主键id值。
+		selectKey标签中的order属性值为：BEFORE .
+		selectKey标签放置的顺序在 INSERT TNTO 语句之前、之后都是没有影响的，Oracle数据库推荐放到 INSERT TNTO 语句之前.
+	 -->
+	<insert id="insertSysUser4" parameterType="com.moon.mybatis.pojo.SysUser">
+		<selectKey keyColumn="id" resultType="java.lang.Long" keyProperty="id" order="BEFORE">
+			SELECT SQL_ID.nextval from dual
+		</selectKey>
+		INSERT TNTO sys_user(
+			id, user_name, user_password, user_email,
+			user_info, head_img, create_time
+		) VALUES(
+			#{id}, #{userName}, #{userPassword}, #{userEmail},
+			#{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	
+	<!-- 新增数据  @moon  2019/01/31  15:29 -->
+	<!-- 
+		注意，这是Mysql数据库的写法，通过新增一个实体类信息，来获取新增实体类的主键id。
+		selectKey标签中的 order属性值为：AFTER . 
+		selectKey标签放置的顺序在 INSERT INTO 语句之前、之后都是没有影响的，Mysql数据库推荐放到 INSERT INTO 语句之后.
+	 -->
+	<insert id="insertSysUser3" parameterType="com.moon.mybatis.pojo.SysUser">
+		INSERT INTO sys_user(
+			USER_NAME, USER_PASSWORD, USER_EMAIL,
+			USER_INFO, HEAD_IMG, CREATE_TIME
+		) VALUES(
+			#{userName}, #{userPassword}, #{userEmail},
+			#{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=TIMESTAMP}
+		)
+		<selectKey keyColumn="id" resultType="java.lang.Long" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	
+	<!-- 新增数据   @moon  2019/01/26  10:41 -->
+	<insert id="insertSysUser2" parameterType="com.moon.mybatis.pojo.SysUser" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sys_user(
+			ID, USER_NAME, USER_PASSWORD, USER_EMAIL, 
+			USER_INFO, HEAD_IMG, CREATE_TIME
+		) VALUES(
+			#{id}, #{userName}, #{userPassword}, #{userEmail},
+			#{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	
+	<!-- 新增数据   @moon  2019/01/26  10:41 -->
+	<insert id="insertSysUser" parameterType="com.moon.mybatis.pojo.SysUser">
+		INSERT INTO sys_user(
+			ID, USER_NAME, USER_PASSWORD, USER_EMAIL, 
+			USER_INFO, HEAD_IMG, CREATE_TIME
+		) VALUES(
+			#{id}, #{userName}, #{userPassword}, #{userEmail},
+			#{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	
+</mapper>

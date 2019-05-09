@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<settings>
+		<!-- 其他配置  2019/01/20 12:28 -->
+		
+		<!-- Mybatis提供的全局属性mapUnderscoreToCamelCase，通过配置该属性值为true
+			可以自动将以下划线方式命名的数据列映射到Java对象的驼峰式命名属性中。
+			在这里，我不推荐使用这种方式。 @moon  2019/01/20  12:34                   
+		 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		
+		<setting name="logImpl" value="LOG4J"/>
+		
+	</settings>
+	
+	<databaseIdProvider type=""></databaseIdProvider>
+	
+	<!-- Mybatis对多数据库的支持 -->
+	<!-- 
+	<databaseIdProvider type="DB_VENDOR">
+		<property name="SQL Server" value="sqlServer" />
+		<property name="DB2" value="db2" />
+		<property name="Oracle" value="oracle" />
+		<property name="MySQL" value="mysql" />
+		<property name="PostgreSQL" value="postgresql" />
+		<property name="Derby" value="derby" />
+		<property name="HSQL" value="hsqldb" />
+		<property name="H2" value="h2" />
+	</databaseIdProvider>
+	 -->
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC">
+				<property name="" value="" />
+			</transactionManager>
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3306/mybatis" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+			
+		</environment>
+	</environments>
+	
+	
+	
+	
+	<!-- 第一种配置，可顺利执行.  2019/01/18 18:55 -->
+	<!-- 配置一个包含完整类路径的Mapper.xml文件，这是Mybatis的SQL语句和映射配置文件 -->
+	<!-- 
+	<mappers>
+		<mapper resource="com/moon/mybatis/mapper/SysPrivilegeMapper.xml" />
+		<mapper resource="com/moon/mybatis/mapper/SysRoleMapper.xml" />
+		<mapper resource="com/moon/mybatis/mapper/SysRolePrivilegeMapper.xml" />
+		<mapper resource="com/moon/mybatis/mapper/SysUserMapper.xml" />
+		<mapper resource="com/moon/mybatis/mapper/SysUserRoleMapper.xml" />
+	</mappers>
+	 -->
+	
+	<!-- 第二种配置，可顺利执行.  2019/01/18 18:55 --> 
+	<mappers>
+		<package name="com.moon.mybatis.mapper"/>
+	</mappers>
+	
+	
+	
+</configuration>
+

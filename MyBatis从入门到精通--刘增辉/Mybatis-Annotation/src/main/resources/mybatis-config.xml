@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<settings>
+		<!-- 其他配置  2019/02/13  15:27 -->
+		
+		<!-- 
+			Mybatis提供的全局属性mapUnderscoreToCamelCase，通过配置该属性值为true
+			可以自动将以下划线方式命名的数据列映射到Java对象的驼峰式命名属性中。
+			在这里，我不推荐这种方式。  @moon  2019/02/13  15:30
+		 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		
+		<setting name="logImpl" value="LOG4J"/>
+		
+	</settings>
+	
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC">
+				<property name="" value=""/>
+			</transactionManager>
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+				<property name="username" value="root"/>
+				<property name="password" value="root"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	
+	<!-- 第一种配置，可顺利执行.  2019/02/13  15:44  -->
+	<!-- 配置一个包含完整类路径的Mapper.xml文件，这是Mybatis的SQL语句和映射配置文件. -->
+	<!-- 
+	<mappers>
+		<mapper resource="com/moon/mybatis/mapper/SysUserMapper.xml" />
+	</mappers>
+	 -->
+	
+	<!-- 第二种配置，可顺利执行.  2019/02/13 15:49 -->
+	<mappers>
+		<package name="com.moon.mybatis.mapper"/>
+	</mappers>
+	
+	
+</configuration>

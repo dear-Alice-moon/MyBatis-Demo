@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysRole3Mapper">
+	
+	
+	<!-- 该xml文件与 SysRole3Mapper.java 文件对应       @moon  2019/06/16  15:32  -->
+	<resultMap id="sysRole3Map" type="com.moon.mybatis.pojo.SysRole3">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="role_name" jdbcType="VARCHAR" property="roleName" />
+		<result column="enabled" jdbcType="INTEGER" property="enabled" />
+		<result column="create_by" jdbcType="BIGINT" property="createBy" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	
+	
+	
+	
+	<!-- 根据主键更新 SysRole3 信息    @moon  2019/06/16  15:57  -->
+	<update id="updateSysRole3ById" parameterType="com.moon.mybatis.pojo.SysRole3">
+		UPDATE sys_role
+		SET role_name=#{roleName}, enabled=#{enabled}, 
+			create_by=#{createBy}, create_time=#{createTime}
+		WHERE id=#{id}
+	</update>
+	
+	
+	<!-- 通过主键查询 SysRole3 信息    @moon  2019/06/16  15:57  -->
+	<select id="selectSysRole3ById" parameterType="java.lang.Long" resultMap="sysRole3Map">
+		SELECT id,
+			role_name,
+			enabled,
+			create_by,
+			create_time
+		FROM sys_role
+		WHERE id=#{id}
+	</select>
+	
+</mapper>

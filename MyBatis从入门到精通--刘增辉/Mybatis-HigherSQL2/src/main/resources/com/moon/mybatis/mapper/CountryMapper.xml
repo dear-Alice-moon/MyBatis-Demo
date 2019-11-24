@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.CountryMapper">
+	
+	<!-- 
+		备注：该xml文件用于MyBatis框架调用Oracle存储过程。       @moon  2019/06/16  11:37           
+	-->
+	
+	<!-- Mybatis逆向生成工具自动生成的resultMap  @moon  2019/06/16 12:38  -->
+	<resultMap id="countryMap" type="com.moon.mybatis.pojo.Country">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="country_name" jdbcType="VARCHAR" property="countryName" />
+		<result column="country_code" jdbcType="VARCHAR" property="countryCode" />
+	</resultMap>
+	
+	
+	
+	<!-- Oracle存储过程，涉及游标的SQL语句。 -->
+	<select id="selectCountries" statementType="CALLABLE" useCache="false">
+		{call SELECT_COUNTRIES(
+			#{list1, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=countryMap},
+			
+			#{list2, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=countryMap}
+		)}
+	</select>
+	
+	
+</mapper>

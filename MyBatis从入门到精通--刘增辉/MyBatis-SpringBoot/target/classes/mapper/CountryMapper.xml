@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.CountryMapper">
+
+	<resultMap id="BaseResultMap" type="com.moon.mybatis.pojo.Country">
+		<result column="id" property="id" />
+		<result column="country_name" property="countryName" />
+		<result column="country_code" property="countryCode" />
+	</resultMap>
+	
+	
+	<!-- <select id="selectAll" resultType="com.moon.mybatis.pojo.Country"> -->
+	<select id="selectAll" resultType="Country">
+		SELECT id,
+			country_name AS countryName,
+			country_code AS countryCode
+		FROM country
+	</select>
+	
+	
+</mapper>

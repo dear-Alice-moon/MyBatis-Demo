@@ -259,10 +259,14 @@
 			head_img headImg,
 			create_time createTime
 		FROM sys_user
-		WHERE id IN
-		<foreach collection="list" open="(" close=")" separator="," item="id" index="i">
-			#{id}
-		</foreach>
+		<where>
+			<if test="idLists != null and idLists.size > 0 ">
+				id IN
+				<foreach collection="idLists" open="(" close=")" separator="," item="id" index="i">
+					#{id}
+				</foreach>
+			</if>
+		</where>
 	</select>
 	
 	

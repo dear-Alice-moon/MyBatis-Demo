@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysUserMapper">
+	
+	<!-- Mybatis逆向生成工具自动生成的resultMap  @moon  2019/03/09 16:41  -->
+	<resultMap id="sysUserMap" type="com.moon.mybatis.pojo.SysUser">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+		<result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="user_info" jdbcType="LONGVARCHAR" property="userInfo" />
+		<result column="head_img" jdbcType="BLOB" property="headImg" />
+	</resultMap>
+	
+	<!-- 借用SysRoleMapper.xml文件的resultMap -->
+	<resultMap id="sysRoleMap" type="com.moon.mybatis.pojo.SysRole">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="role_name" jdbcType="VARCHAR" property="roleName" />
+		<result column="enabled" jdbcType="INTEGER" property="enabled" />
+		<result column="create_by" jdbcType="BIGINT" property="createBy" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	
+	
+	<!-- 
+		  扩充SysRole实体类中的字段，
+		  其中column对应的值为 id='selectUserAndRoleById2'SQL语句中的查询字段，
+		 property对应的值为 SysUser实体类中的属性值. sysRole.id值是sysRole属性下的子属性.   @moon  2019/03/08  14:47    
+	-->
+	<resultMap id="userRoleMap2" type="com.moon.mybatis.pojo.SysUser">
+		<id property="id" column="id"/>
+		<result property="userName" column="user_name" />
+		<result property="userPassword" column="user_password" />
+		<result property="userEmail" column="user_email" />
+		<result property="userInfo" column="user_info" />
+		<result property="headImg" column="head_img" jdbcType="BLOB" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<!-- role相关属性 -->
+		<result property="sysRole.id" column="role_id"/>
+		<result property="sysRole.roleName" column="role_name"/>
+		<result property="sysRole.enabled" column="role_enabled"/>
+		<result property="sysRole.createBy" column="role_create_by"/>
+		<result property="sysRole.createTime" column="role_create_time" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	
+	<!-- 
+		MyBatis支持 resultMap映射继承，
+		id="userRoleMap3" 通过继承 id="sysUserMap" 来达到简化映射配置。    @moon  2019/03/08  14:50    
+	 -->
+	<resultMap id="userRoleMap3" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser">
+		<!-- role相关属性 -->
+		<result property="sysRole.id" column="role_id"/>
+		<result property="sysRole.roleName" column="role_name"/>
+		<result property="sysRole.enabled" column="role_enabled"/>
+		<result property="sysRole.createBy" column="role_create_by"/>
+		<result property="sysRole.createTime" column="role_create_time" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	
+	<!-- 
+		使用resultMap的association标签的javaType属性配置一对一映射。   @moon  2019/03/08  15:33 
+		association标签的javaType属性值指向SysRole实体类.
+	 -->
+	<resultMap id="userRoleMap4" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser">
+		<association property="sysRole" columnPrefix="role_" javaType="com.moon.mybatis.pojo.SysRole" >
+			<result property="id" column="id" />
+			<result property="roleName" column="role_name" />
+			<result property="enabled" column="enabled" />
+			<result property="createBy" column="create_by" />
+			<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		</association>
+	</resultMap>
+	
+	
+	<!-- 
+		使用resultMap的association标签的resultMap属性配置一对一映射。
+		 其中，association标签的resultMap属性值来源于当前文件配置的信息.
+	 -->
+	<!-- 
+		使用resultMap的association标签配置一对一映射。   @moon  2019/03/08  15:33 
+	 -->
+	<resultMap id="userRoleMap5" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser">
+		<association property="sysRole" columnPrefix="role_" resultMap="sysRoleMap" />
+	</resultMap>
+	
+	
+	<!-- 
+		使用resultMap的association标签的resultMap属性配置一对一映射。
+		 其中，association标签的resultMap属性值来源于SysRoleMapper.xml文件配置信息 。
+	 -->
+	<!-- 
+		使用resultMap的association标签配置一对一映射。   @moon  2019/03/08  15:33 
+	 --> 
+	<resultMap id="userRoleMap6" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser">
+		<!-- 下行代码可正确执行，需要注意的是：使用resultSet标签，SysRoleMapper.xml中的resultMap的id属性值必须为: BaseResultMap，否则报错. -->
+		<!-- <association property="sysRole" columnPrefix="role_" resultSet="com.moon.mybatis.mapper.SysRoleMapper.BaseResultMap" /> -->
+		<association property="sysRole" columnPrefix="role_" resultMap="com.moon.mybatis.mapper.SysRoleMapper.BaseResultMap" /> 
+		<!-- <association property="sysRole" columnPrefix="role_" resultMap="com.moon.mybatis.mapper.SysRoleMapper.sysRoleMap" /> -->
+	</resultMap>
+	
+	
+	<!-- 
+		使用resultMap的association标签的resultMap属性配置一对一映射。
+		 其中，association标签的select属性值来源于SysRoleMapper.xml文件中id为'selectRoleById'的查询语句 。
+	 -->
+	<!-- 
+		使用resultMap的association标签配置一对一映射。   @moon  2019/03/19  11:15 
+	 --> 
+	<resultMap id="userRoleMap7" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser">
+		<association property="sysRole" column="{id=role_id}" select="com.moon.mybatis.mapper.SysRoleMapper.selectRoleById" />
+	</resultMap>
+	
+	
+	<!-- 
+		使用resultMap的association标签的resultMap属性配置一对一映射。
+		 其中，association标签的select属性值来源于SysRoleMapper.xml文件中id为'selectRoleById'的查询语句 。
+		 association标签的fetchType属性值，用于设置延迟加载。           
+	 -->
+	<!-- 
+		使用resultMap的association标签配置一对一映射。   @moon  2019/03/19  15:39 
+	 --> 
+	<resultMap id="userRoleMap8" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser">
+		<association property="sysRole" fetchType="lazy" column="{id=role_id}" select="com.moon.mybatis.mapper.SysRoleMapper.selectRoleById" />
+	</resultMap>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 
+	         一对一映射，使用resultMap配置一对一映射关系.
+		 使用resultMap标签下的子标签association中的select属性配置一对一映射。
+		 其中，association标签的select属性值来源于SysRoleMapper.xml文件中id为'selectRoleById'的查询语句。
+		 association标签的fetchType属性值lazy，用于设置延迟加载。  
+	 -->
+	<!-- 根据用户ID查询用户信息、用户角色信息.  @moon  2019/03/19  15:42 -->
+	<select id="selectUserAndRoleById8" parameterType="java.lang.Long" resultMap="userRoleMap8">
+		SELECT u.id,
+			   u.user_name,
+			   u.user_password,
+			   u.user_email,
+			   u.user_info,
+			   u.head_img,
+			   u.create_time,
+			   ur.role_id
+		FROM sys_user u
+		INNER JOIN sys_user_role ur ON u.id = ur.user_id 
+		WHERE u.id = #{id}	   
+	</select>
+	
+	
+	<!-- 
+	         一对一映射，使用resultMap配置一对一映射关系.
+		 使用resultMap标签下的子标签association中的select属性配置一对一映射。
+		 其中，association标签的select属性值来源于SysRoleMapper.xml文件中id为'selectRoleById'的查询语句。
+	 -->
+	<!-- 根据用户ID查询用户信息、用户角色信息.  @moon  2019/03/19  11:37 -->
+	<select id="selectUserAndRoleById7" parameterType="java.lang.Long" resultMap="userRoleMap7">
+		SELECT u.id,
+			   u.user_name,
+			   u.user_password,
+			   u.user_email,
+			   u.user_info,
+			   u.head_img,
+			   u.create_time,
+			   ur.role_id
+		FROM sys_user u
+		INNER JOIN sys_user_role ur ON u.id = ur.user_id 
+		WHERE u.id = #{id}	   
+	</select>
+	
+	
+	<!-- 
+	         一对一映射，使用resultMap配置一对一映射关系.
+		 使用resultMap的association标签的resultMap属性配置一对一映射。
+		 其中，association标签的resultMap属性值来源于SysRoleMapper.xml文件配置信息 。
+	 -->
+	<!-- 根据用户ID查询用户信息、用户角色信息.  @moon  2019/03/08  18:26 -->
+	<select id="selectUserAndRoleById6" parameterType="java.lang.Long" resultMap="userRoleMap6">
+		SELECT u.id,
+			u.user_name,
+			u.user_password,
+			u.user_email,
+			u.user_info,
+			u.head_img,
+			u.create_time,
+			r.id AS role_id,			
+			r.role_name AS role_role_name,
+			r.enabled AS role_enabled,
+			r.create_by AS role_create_by,
+			r.create_time AS role_create_time
+		FROM sys_user u
+		INNER JOIN sys_user_role ur ON ur.user_id = u.id 
+		INNER JOIN sys_role r ON ur.role_id = r.id 
+		WHERE u.id = #{id}
+	</select>
+	
+	
+	<!-- 
+	         一对一映射，使用resultMap配置一对一映射关系.
+		 使用resultMap的association标签的resultMap属性配置一对一映射。
+		 其中，association标签的resultMap属性值来源于当前文件配置的信息。
+	 -->
+	<!-- 根据用户ID查询用户信息、用户角色信息.  @moon  2019/03/08  18:26 -->
+	<select id="selectUserAndRoleById5" parameterType="java.lang.Long" resultMap="userRoleMap5">
+		SELECT u.id,
+			u.user_name,
+			u.user_password,
+			u.user_email,
+			u.user_info,
+			u.head_img,
+			u.create_time,
+			r.id AS role_id,			
+			r.role_name AS role_role_name,
+			r.enabled AS role_enabled,
+			r.create_by AS role_create_by,
+			r.create_time AS role_create_time
+		FROM sys_user u
+		INNER JOIN sys_user_role ur ON ur.user_id = u.id 
+		INNER JOIN sys_role r ON ur.role_id = r.id 
+		WHERE u.id = #{id}
+	</select>
+	
+	
+	<!-- 
+	         一对一映射，使用resultMap配置一对一映射关系.
+		 使用resultMap的association标签配置一对一映射，association标签的javaType属性值指向SysRole实体类。
+	 -->
+	<!-- 根据用户ID查询用户信息、用户角色信息.  @moon  2019/03/08  15:38 -->
+	<select id="selectUserAndRoleById4" parameterType="java.lang.Long" resultMap="userRoleMap4">
+		SELECT u.id,
+			u.user_name,
+			u.user_password,
+			u.user_email,
+			u.user_info,
+			u.head_img,
+			u.create_time,
+			r.id AS role_id,			
+			r.role_name AS role_role_name,
+			r.enabled AS role_enabled,
+			r.create_by AS role_create_by,
+			r.create_time AS role_create_time
+		FROM sys_user u
+		INNER JOIN sys_user_role ur ON ur.user_id = u.id 
+		INNER JOIN sys_role r ON ur.role_id = r.id 
+		WHERE u.id = #{id}
+	</select>
+	
+	
+	<!-- 一对一映射，使用resultMap配置一对一映射关系. -->
+	<!-- 根据用户ID查询用户信息、用户角色信息.  @moon  2019/03/08  14:52 -->
+	<select id="selectUserAndRoleById3" parameterType="java.lang.Long" resultMap="userRoleMap3">
+		SELECT u.id,
+			u.user_name,
+			u.user_password,
+			u.user_email,
+			u.user_info,
+			u.head_img,
+			u.create_time,
+			r.id AS role_id,			
+			r.role_name AS role_name,
+			r.enabled AS role_enabled,
+			r.create_by AS role_create_by,
+			r.create_time AS role_create_time
+		FROM sys_user u
+		INNER JOIN sys_user_role ur ON ur.user_id = u.id 
+		INNER JOIN sys_role r ON ur.role_id = r.id 
+		WHERE u.id = #{id}
+	</select>
+	
+	
+	<!-- 一对一映射，使用resultMap配置一对一映射关系. -->
+	<!-- 根据用户ID查询用户信息、用户角色信息.  @moon  2019/03/08  11:17 -->
+	<select id="selectUserAndRoleById2" parameterType="java.lang.Long" resultMap="userRoleMap2">
+		SELECT u.id,
+			u.user_name,
+			u.user_password,
+			u.user_email,
+			u.user_info,
+			u.head_img,
+			u.create_time,
+			r.id AS role_id,			
+			r.role_name AS role_name,
+			r.enabled AS role_enabled,
+			r.create_by AS role_create_by,
+			r.create_time AS role_create_time
+		FROM sys_user u
+		INNER JOIN sys_user_role ur ON ur.user_id = u.id 
+		INNER JOIN sys_role r ON ur.role_id = r.id 
+		WHERE u.id = #{id}
+	</select>
+		
+	
+	<!-- 一对一映射，使用自动映射处理一对一关系. -->
+	<!-- 根据用户ID查询用户信息、用户角色信息.  @moon  2019/03/07  17:26 -->
+	<select id="selectUserAndRoleById" parameterType="java.lang.Long" resultType="com.moon.mybatis.pojo.SysUser">
+		SELECT u.id,
+			u.user_name userName,
+			u.user_password userPassword,
+			u.user_email userEmail,
+			u.user_info userInfo,
+			u.head_img headImg,
+			u.create_time createTime,
+			r.id AS "sysRole.id",
+			r.role_name AS "sysRole.roleName",
+			r.enabled AS "sysRole.enabled",
+			r.create_by AS "sysRole.createBy",
+			r.create_time AS "sysRole.createTime"
+		FROM sys_user u
+		INNER JOIN sys_user_role ur ON u.id = ur.user_id 
+		INNER JOIN sys_role r ON ur.role_id = r.id 
+		WHERE u.id = #{id} 
+	</select>
+	
+	
+	<sql id="Base_Column_List">
+		id, user_name, user_password, user_email, create_time
+	</sql>
+	
+	<sql id="Blob_Column_List">
+		user_info, head_img
+	</sql>
+	
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="sysUserMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from sys_user
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

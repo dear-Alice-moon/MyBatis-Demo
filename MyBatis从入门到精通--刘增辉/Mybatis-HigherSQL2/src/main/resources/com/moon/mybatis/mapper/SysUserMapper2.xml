@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysUserMapper2">
+
+	<!-- Mybatis逆向生成工具自动生成的resultMap  @moon  2019/03/09 16:41  -->
+	<resultMap id="sysUserMap" type="com.moon.mybatis.pojo.SysUser2">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+		<result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="user_info" jdbcType="LONGVARCHAR" property="userInfo" />
+		<result column="head_img" jdbcType="BLOB" property="headImg" />
+	</resultMap>
+	
+	
+	<!-- 
+		一对多映射
+		使用 collection 标签   @moon  2019/03/25  17:12  
+	 -->
+	<!-- <resultMap id="userRoleListMap" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser2"> -->
+	<resultMap id="userRoleListMap" type="com.moon.mybatis.pojo.SysUser2">
+		<id property="id" column="id" />
+		<result property="userName" column="user_name"/>
+		<result property="userPassword" column="user_password"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userInfo" column="user_info"/>
+		<result property="headImg" column="head_img" jdbcType="BLOB"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		<!-- <collection property="sysRoleList" columnPrefix="role_" javaType="com.moon.mybatis.pojo.SysRole"> -->
+		<collection property="sysRoleList" columnPrefix="role_" ofType="com.moon.mybatis.pojo.SysRole">
+			<id property="id" column="id" />
+			<result property="roleName" column="role_name" />
+			<result property="enabled" column="enabled" />
+			<result property="createBy" column="create_by" />
+			<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		</collection>
+	</resultMap>
+	
+	
+	<!-- 
+		一对多映射
+		使用 collection 标签   @moon  2019/03/25  19:51           
+	 -->
+	<resultMap id="userRoleListMap2" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser2">
+		<collection property="sysRoleList" columnPrefix="role_" resultMap="com.moon.mybatis.mapper.SysRoleMapper.BaseResultMap" />
+	</resultMap>
+	
+	
+	<!-- 
+		一对多映射
+		使用 collection 标签、id标签    @moon  2019/04/21  16:39  
+		在这里验证id标签的作用：以userPassword为<id>标签值，userPassword值有重复，故MyBatis自动合并，只返回1个用户及其所有角色。  
+	 -->
+	<!-- <resultMap id="userRoleListMap" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser2"> -->
+	<resultMap id="userRoleListMap3" type="com.moon.mybatis.pojo.SysUser2">
+		<id property="userPassword" column="user_password" />  <!-- 验证id标签的作用 -->
+		<result property="id" column="id"/>
+		<result property="userName" column="user_name"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userInfo" column="user_info"/>
+		<result property="headImg" column="head_img" jdbcType="BLOB"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		<!-- <collection property="sysRoleList" columnPrefix="role_" javaType="com.moon.mybatis.pojo.SysRole"> -->
+		<collection property="sysRoleList" columnPrefix="role_" ofType="com.moon.mybatis.pojo.SysRole">
+			<id property="id" column="id" />
+			<result property="roleName" column="role_name" />
+			<result property="enabled" column="enabled" />
+			<result property="createBy" column="create_by" />
+			<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		</collection>
+	</resultMap>
+	
+	
+	<!-- 
+		一对多映射，多层嵌套，一个用户获取多个角色，一个角色获取多个权限.
+		@moon  2019/04/25  16:51  
+	 -->
+	<resultMap id="userRoleListMap4" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser2" >
+		<collection property="sysRoleList" columnPrefix="role_" resultMap="com.moon.mybatis.mapper.SysRoleMapper.rolePrivilegeListMap" />
+	</resultMap>
+	
+	
+	<!-- 
+		一对多映射，collection集合标签嵌套查询.  @moon  2019/04/26  21:41    
+		暂时未能通过验证测试！  @moon  2019/04/27  10:27  
+	 -->
+	<resultMap id="userRoleListMapSelect" extends="sysUserMap" type="com.moon.mybatis.pojo.SysUser2" >
+		<collection property="sysRoleList" 
+			fetchType="lazy" 
+			select="com.moon.mybatis.mapper.SysRoleMapper.selectRoleByUserId" 
+			column="{userId=id}" />
+	</resultMap>
+	
+	
+	
+	
+	<!-- 
+		一对多映射，collection集合标签嵌套查询.
+		@moon  2019/04/26  21:41  
+	 -->
+	<select id="selectAllUserAndRolesSelect" parameterType="java.lang.Long" resultMap="userRoleListMapSelect">
+		SELECT u.id,
+			u.user_name,
+			u.user_password,
+			u.user_email,
+			u.user_info,
+			u.head_img,
+			u.create_time 
+		FROM sys_user u
+		WHERE u.id = #{id}
+	</select>
+	
+	
+	<!-- 
+		一对多映射，多层嵌套，一个用户获取多个角色，一个角色获取多个权限.
+		@moon  2019/04/25  16:51  
+	 -->
+	<select id="selectAllUserAndRoles4" parameterType="java.lang.Long" resultMap="userRoleListMap4">
+		SELECT u.id,
+			u.user_name,
+			u.user_password,
+			u.user_email,
+			u.user_info,
+			u.head_img,
+			u.create_time,
+			r.id role_id,
+			r.role_name role_role_name,
+			r.enabled role_enabled,
+			r.create_by role_create_by,
+			r.create_time role_create_time,
+			p.id role_privilege_id, 
+			p.privilege_name role_privilege_privilege_name,
+			p.privilege_url role_privilege_privilege_url
+		FROM sys_user u
+		INNER JOIN sys_user_role ur ON u.id = ur.user_id
+		INNER JOIN sys_role r ON ur.role_id = r.id
+		INNER JOIN sys_role_privilege rp ON r.id = rp.role_id 
+		INNER JOIN sys_privilege p ON rp.privilege_id = p.id
+		WHERE u.id = #{id} 
+	</select>
+	
+	
+	<!-- 一对多映射：查询所有用户及各个用户下所有的角色信息     
+		在这里验证id标签的作用：以userPassword为<id>标签值，userPassword值有重复，故MyBatis自动合并，只返回1个用户及其所有角色。  
+			@moon  2019/04/21  16:39  
+	-->
+	<select id="selectAllUserAndRoles3" resultMap="userRoleListMap3">
+		SELECT u.id,
+			u.user_name,
+			u.user_password,
+			u.user_email,
+			u.user_info,
+			u.head_img,
+			u.create_time,
+			r.id role_id,
+			r.role_name role_role_name,
+			r.enabled role_enabled,
+			r.create_by role_create_by,
+			r.create_time role_create_time
+		FROM sys_user u 
+		INNER JOIN sys_user_role ur ON u.id = ur.user_id
+		INNER JOIN sys_role r ON ur.role_id = r.id
+	</select>
+	
+	
+	<!-- 一对多映射：查询指定用户及其所有的角色信息     @moon  2019/03/25  20:16 -->
+	<select id="selectAllUserAndRoles2" parameterType="java.lang.Long" resultMap="userRoleListMap2" >
+		SELECT u.id,
+			u.user_name,
+			u.user_password,
+			u.user_email,
+			u.user_info,
+			u.head_img,
+			u.create_time,
+			r.id role_id,
+			r.role_name role_role_name,
+			r.enabled role_enabled,
+			r.create_by role_create_by,
+			r.create_time role_create_time
+		FROM sys_user u 
+		INNER JOIN sys_user_role ur ON u.id = ur.user_id
+		INNER JOIN sys_role r ON ur.role_id = r.id
+		WHERE u.id = #{id}
+	</select>
+	
+	
+	<!-- 一对多映射：查询所有用户及各个用户下所有的角色信息     @moon  2019/03/25  20:00 -->
+	<select id="selectAllUserAndRoles" resultMap="userRoleListMap">
+		SELECT u.id,
+			u.user_name,
+			u.user_password,
+			u.user_email,
+			u.user_info,
+			u.head_img,
+			u.create_time,
+			r.id role_id,
+			r.role_name role_role_name,
+			r.enabled role_enabled,
+			r.create_by role_create_by,
+			r.create_time role_create_time
+		FROM sys_user u 
+		INNER JOIN sys_user_role ur ON u.id = ur.user_id
+		INNER JOIN sys_role r ON ur.role_id = r.id
+	</select>
+	
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysDictMapper">
+	               
+	<resultMap id="BaseResultMap" type="com.moon.mybatis.pojo.SysDict">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="value" jdbcType="VARCHAR" property="value" />
+	</resultMap>
+	
+	
+	<!-- 查询SysDict  @moon  2019/11/10  17:31 -->
+	<select id="selectBySysDict" resultType="com.moon.mybatis.pojo.SysDict">
+		SELECT id, 
+			   code, 
+			   name, 
+			   value
+		FROM sys_dict
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="code != null and code != ''">
+				AND code = #{code}
+			</if>
+		</where> 
+		ORDER BY code, `value`
+	</select>
+	
+	
+	<!-- 新增 SysDict  @moon  2019/11/10  17:40 -->
+	<insert id="insertSysDict" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sys_dict(code, name, value)
+		VALUES(#{code}, #{name}, #{value})
+	</insert>
+	
+	
+	<!-- 更新SysDict  @moon 2019/11/10  17:45 -->
+	<update id="updateSysDictById">
+		UPDATE sys_dict
+		SET code = #{code},
+			name = #{name},
+			value = #{value}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据主键删除SysDict  @moon  2019/11/10  17:47 -->
+	<delete id="deleteSysDictById">
+		DELETE FROM sys_dict
+		WHERE id = #{id}
+	</delete>
+	
+	
+	<!-- 因为在applicationContext.xml中，'typeAliasesPackage' 属性配置，第2种resultType也正确。  @moon  2019/11/10  17:19 -->
+	<!-- <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.moon.mybatis.pojo.SysDict"> -->
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="SysDict">
+		SELECT id, 
+			   code, 
+			   name, 
+			   value
+		FROM sys_dict
+		WHERE id = #{id}
+	</select>
+	
+</mapper>

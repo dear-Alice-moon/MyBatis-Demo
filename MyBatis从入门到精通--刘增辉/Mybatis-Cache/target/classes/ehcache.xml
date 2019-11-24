@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="ehcache.xsd"
+	updateCheck="false" monitoring="autodetect"
+	dynamicConfig="true">
+	
+	<diskStore path="D:/Test-moon" />
+	
+	
+	<!-- 全局使用ehcache-cache，实现MyBatis的二级缓存. -->
+	<!-- 
+	<defaultCache maxElementsInMemory="3000" 
+				  eternal="false" 
+				  copyOnRead="true"
+				  copyOnWrite="true" 
+				  timeToIdleSeconds="3600" 
+				  timeToLiveSeconds="3600"
+				  overflowToDisk="true" 
+				  diskPersistent="true" />
+	 -->
+	
+	
+	<!-- 仅针对SysRoleMapper3.java使用ehcache-cache，实现MyBatis的二级缓存. -->
+	<defaultCache name="com.moon.mybatis.mapper.SysRoleMapper3"
+				  maxElementsInMemory="3000" 
+				  eternal="false" 
+				  copyOnRead="true"
+				  copyOnWrite="true" 
+				  timeToIdleSeconds="3600" 
+				  timeToLiveSeconds="3600"
+				  overflowToDisk="true" 
+				  diskPersistent="true" />
+	
+	
+</ehcache>

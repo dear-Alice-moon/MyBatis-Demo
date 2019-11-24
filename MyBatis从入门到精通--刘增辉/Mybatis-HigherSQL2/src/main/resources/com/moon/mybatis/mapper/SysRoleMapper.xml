@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysRoleMapper">
+	
+  <resultMap id="BaseResultMap" type="com.moon.mybatis.pojo.SysRole"> <!-- 该行代码可在UserMapperTest.java中正确执行 -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="enabled" jdbcType="INTEGER" property="enabled" />
+    <result column="create_by" jdbcType="BIGINT" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  
+  
+  <resultMap id="sysRoleMap" type="com.moon.mybatis.pojo.SysRole">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="enabled" jdbcType="INTEGER" property="enabled" />
+    <result column="create_by" jdbcType="BIGINT" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  
+  
+  <!-- 
+  	一对多映射
+  	@moon  2019/04/25  16:48  
+   -->
+  <resultMap id="rolePrivilegeListMap" extends="sysRoleMap" type="com.moon.mybatis.pojo.SysRole" >
+  	<collection property="sysPrivilegeList" columnPrefix="privilege_" resultMap="com.moon.mybatis.mapper.SysPrivilegeMapper.BaseResultMap" />
+  </resultMap>
+  
+  	
+  <!-- 
+  	一对多映射，一个角色对应多个权限.
+  	编辑器Dug模式下，仔细体会'association标签' 与  'collection标签' 的这两种类型配置. 
+  	@moon  2019/04/26  15:35  	
+  -->
+  <resultMap id="rolePrivilegeListMap2" type="com.moon.mybatis.pojo.SysRole2">
+  	<id property="id" column="id"/>
+  	<result property="roleName" column="role_name"/>
+  	<result property="enabled" column="enabled"/>
+	<association property="createInfo" javaType="com.moon.mybatis.pojo.CreateInfo">
+		<result property="createBy" column="create_by"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+	</association>
+	<collection property="sysPrivilegeList" columnPrefix="privilege_" resultMap="com.moon.mybatis.mapper.SysPrivilegeMapper.BaseResultMap" />
+  </resultMap>
+  
+  
+  <!-- collection集合的嵌套查询. @moon  2019/04/26  21:18  -->
+  <resultMap id="rolePrivilegeListMapSelect" extends="sysRoleMap" type="com.moon.mybatis.pojo.SysRole">
+  	<collection property="sysPrivilegeList" 
+  		fetchType="lazy" 
+  		column="{roleId=id}" 
+  		select="com.moon.mybatis.mapper.SysPrivilegeMapper.selectPrivilegeByRoleId"  />
+  </resultMap>
+  
+  
+  <!-- MyBatis鉴别器一对多映射. 
+  	   鉴别器是一种很少使用的方式，使用前一定要完全掌握，没有把握的情况下要尽可能避免使用	
+  	   @moon  2019/04/28  16:19  
+  -->
+  <resultMap id="rolePrivilegeListMapChoose" type="com.moon.mybatis.pojo.SysRole">
+  	<discriminator column="enabled" javaType="java.lang.Integer">
+  		<case value="1" resultMap="rolePrivilegeListMap" />
+  		<case value="0" resultMap="sysRoleMap" />
+  	</discriminator>
+  </resultMap>
+  
+  
+  <!-- MyBatis鉴别器一对多映射. 
+  	   鉴别器是一种很少使用的方式，使用前一定要完全掌握，没有把握的情况下要尽可能避免使用	
+  	   @moon  2019/04/28  20:05  
+  -->
+  <resultMap id="rolePrivilegeListMapChoose2" type="com.moon.mybatis.pojo.SysRole">
+  	<discriminator column="enabled" javaType="java.lang.Integer">
+  		<case value="1" resultMap="rolePrivilegeListMap" />
+  		<case value="0" resultType="com.moon.mybatis.pojo.SysRole" >
+  			<id property="id" column="id"/>
+  			<result property="roleName" column="role_name"/>
+  		</case>
+  	</discriminator>
+  </resultMap>
+  
+  
+  
+  
+  
+  
+  <!-- 更新 SysRole 信息.  @moon  2019/04/28  16:36 -->
+  <update id="updateSysRoleByRoleId" parameterType="com.moon.mybatis.pojo.SysRole">
+  	UPDATE sys_role
+  	SET role_name=#{roleName}, enabled=#{enabled}, create_by=#{createBy},
+  		create_time=#{createTime} 
+  	WHERE id = #{id}
+  </update>
+  
+  
+  <!-- 
+  	MyBatis鉴别器一对多映射，通过userId查询 List<SysRole> 信息.
+  	@moon  2019/04/28  16:19  
+   -->
+  <select id="selectRoleByUserIdChoose" parameterType="java.lang.Long" resultMap="rolePrivilegeListMapChoose">
+  	SELECT r.id,
+  		r.role_name,
+  		r.enabled,
+  		r.create_by,
+  		r.create_time,
+  		p.id privilege_id,
+  		p.privilege_name privilege_privilege_name,
+  		p.privilege_url privilege_privilege_url
+  	FROM sys_role r 
+  	INNER JOIN sys_user_role ur ON ur.role_id = r.id
+  	INNER JOIN sys_role_privilege rp ON rp.role_id = r.id
+  	INNER JOIN sys_privilege p ON p.id = rp.privilege_id  
+  	WHERE ur.user_id = #{userId}
+  </select>
+  
+  
+  <!-- collection集合的嵌套查询. @moon  2019/04/26  21:18  -->
+  <select id="selectRoleByUserId" parameterType="java.lang.Long" resultMap="rolePrivilegeListMapSelect">
+  	SELECT r.id,
+  		r.role_name,
+  		r.enabled,
+  		r.create_by,
+  		r.create_time 
+  	FROM sys_role r
+  	INNER JOIN sys_user_role ur ON ur.role_id = r.id 
+  	WHERE ur.user_id = #{userId}
+  </select>
+  
+  
+  <!-- 
+  	一对多映射，一个角色对应多个权限.
+  	编辑器Dug模式下，仔细体会'association标签' 与  'collection标签' 的这两种类型配置. 
+  	@moon  2019/04/26  15:35  	
+  -->
+  <select id="selectAllRoleAndPrivileges2" parameterType="java.lang.Long" resultMap="rolePrivilegeListMap2">
+  	SELECT r.id,
+  		r.role_name, 
+  		r.enabled,
+  		r.create_by,
+  		r.create_time,
+  		p.id AS privilege_id,
+  		p.privilege_name AS privilege_privilege_name,
+  		p.privilege_url AS privilege_privilege_url
+  	FROM sys_role r
+  	INNER JOIN sys_role_privilege rp ON r.id = rp.role_id 
+  	INNER JOIN sys_privilege p ON rp.privilege_id = p.id  
+  	WHERE r.id = #{id}
+  </select>
+  
+  
+  <!-- 
+  		一对多映射，一个角色对应多个权限. 
+   -->
+  <select id="selectAllRoleAndPrivileges" resultMap="rolePrivilegeListMap">
+  	SELECT r.id,
+  		r.role_name,
+  		r.enabled,
+  		r.create_by,
+  		r.create_time,
+  		p.id privilege_id,
+  		p.privilege_name privilege_privilege_name,
+  		p.privilege_url privilege_privilege_url
+  	FROM sys_role r
+  	INNER JOIN sys_role_privilege rp ON rp.role_id = r.id
+  	INNER JOIN sys_privilege p ON p.id = rp.privilege_id
+  </select>
+  
+  
+  <!-- 
+  		通过主键查询角色信息, 在 SysUserMapper.xml文件中有使用.   
+  		@moon  2019/04/26  14:25 
+  -->
+  <select id="selectRoleById" parameterType="java.lang.Long" resultMap="sysRoleMap">
+  	SELECT id, 
+  		   role_name,
+  		   enabled,
+  		   create_by,
+  		   create_time
+  	FROM sys_role
+  	WHERE id=#{id}
+  </select>
+  
+  
+  <sql id="Base_Column_List">
+    id, role_name, enabled, create_by, create_time
+  </sql>
+  
+  <!-- 通过主键查询角色信息，自动生成。    @moon  2019/04/26  14:25 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+</mapper>

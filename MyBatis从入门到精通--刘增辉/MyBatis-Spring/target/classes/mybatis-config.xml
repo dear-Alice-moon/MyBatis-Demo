@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+		<setting name="cacheEnabled" value="true"/>
+		<!-- Mybatis提供的全局属性mapUnderscoreToCamelCase，通过配置该属性值为true
+			可以自动将以下划线方式命名的数据列映射到Java对象的驼峰式命名属性中。
+			在这里，我不推荐使用这种方式。 @moon  2019/01/20  12:34                   
+		 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
+	
+	
+</configuration>
+

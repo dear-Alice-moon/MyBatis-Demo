@@ -1,0 +1,9 @@
+
+1、index.jsp页面测试路径：http://localhost:8080/MyBatis-Spring/
+   index2.jsp页面测试路径：http://localhost:8080/MyBatis-Spring/index2
+   
+   
+2、项目启动后，dicts.jsp页面访问路径：http://localhost:8080/MyBatis-Spring/dicts， 可进行新增、编辑、删除操作。
+
+
+

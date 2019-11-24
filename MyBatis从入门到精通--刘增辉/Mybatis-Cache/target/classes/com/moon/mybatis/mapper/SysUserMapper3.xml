@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysUserMapper3">
+	
+	<!-- 配置参照缓存  @moon 2019/09/07  20:33 -->
+	<cache-ref namespace="com.moon.mybatis.mapper.SysRoleMapper5"/>
+	
+	<!-- Mybatis逆向生成工具自动生成的resultMap  @moon  2019/03/09 16:41  -->
+	<resultMap id="sysUserMap" type="com.moon.mybatis.pojo.SysUser3">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+		<result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="user_info" jdbcType="LONGVARCHAR" property="userInfo" />
+		<result column="head_img" jdbcType="BLOB" property="headImg" />
+	</resultMap>
+	
+	
+	
+	<!-- 通过userId查询用户、角色信息  @author moon  2019/08/31  17:20 -->
+	<select id="selectUserAndRoleById" parameterType="java.lang.Long" resultType="com.moon.mybatis.pojo.SysUser3">
+		SELECT u.id AS id,
+			u.user_name AS userName,
+			u.user_password AS userPassword,
+			u.user_email AS userEmail,
+			u.user_info AS userInfo,
+			u.head_img AS headImg,
+			u.create_time AS createTime,
+			r.id AS "role.id",
+			r.role_name AS "role.roleName",
+			r.enabled AS "role.enabled",
+			r.create_by AS "role.createBy",
+			r.create_time AS "role.createTime"
+		FROM sys_user u
+		INNER JOIN sys_user_role ur ON u.id = ur.user_id
+		INNER JOIN sys_role r ON r.id = ur.role_id 
+		WHERE u.id = #{id}
+	</select>
+	
+</mapper>

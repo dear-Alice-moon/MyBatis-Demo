@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:tx="http://www.springframework.org/schema/tx"
+	 xmlns:aop="http://www.springframework.org/schema/aop"
+	 xmlns:context="http://www.springframework.org/schema/context"
+	 xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans.xsd
+	 http://www.springframework.org/schema/tx
+	 http://www.springframework.org/schema/tx/spring-tx.xsd
+	 http://www.springframework.org/schema/aop
+	 http://www.springframework.org/schema/aop/spring-aop.xsd
+	 http://www.springframework.org/schema/context
+	 http://www.springframework.org/schema/context/spring-context.xsd ">
+	
+	<context:component-scan base-package="com.moon.*.service.impl" />
+	
+	
+	<bean id="dataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
+		<property name="driver" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/mybatis" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+		
+	</bean>
+	
+	
+	<!-- 使用 SqlSessionFactoryBean 创建 sqlSessionFactory  @moon  2019/11/09  17:20 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" >
+			<array>
+				<value>classpath:com/moon/**/mapper/*.xml</value><!-- 这里不知配置路径是否正确！@moon  2019/11/09  17:10 -->
+			</array>
+		</property>
+		<property name="typeAliasesPackage" value="com.moon.mybatis.pojo" /><!-- 这里不知配置路径是否正确！@moon  2019/11/09  17:10 -->
+	</bean>
+	
+	
+	<!-- 通过MapperScannerConfigurer类自动扫描所有的Mapper接口  @moon  2019/11/09  17:23 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.moon.**.mapper" />
+	</bean>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</beans>

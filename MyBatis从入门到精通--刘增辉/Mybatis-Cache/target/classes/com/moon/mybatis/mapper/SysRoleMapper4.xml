@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysRoleMapper4">
+
+	<!-- 使用mybatis-redis，实现MyBatis的二级缓存. -->
+	<cache type="org.mybatis.caches.redis.RedisCache" />
+	
+	
+	<resultMap id="BaseResultMap" type="com.moon.mybatis.pojo.SysRole4"> <!-- 该行代码可在UserMapperTest.java中正确执行 -->
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="role_name" jdbcType="VARCHAR" property="roleName" />
+		<result column="enabled" jdbcType="INTEGER" property="enabled" />
+		<result column="create_by" jdbcType="BIGINT" property="createBy" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	
+	
+	<resultMap id="sysRoleMap" type="com.moon.mybatis.pojo.SysRole4">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="role_name" jdbcType="VARCHAR" property="roleName" />
+		<result column="enabled" jdbcType="INTEGER" property="enabled" />
+		<result column="create_by" jdbcType="BIGINT" property="createBy" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	
+	
+	
+	
+	<!-- 通过主键查询角色信息, 在 SysUserMapper.xml文件中有使用. @moon 2019/04/26 14:25 -->
+	<select id="selectRoleById" parameterType="java.lang.Long" resultMap="sysRoleMap">
+		SELECT id,
+		role_name,
+		enabled,
+		create_by,
+		create_time
+		FROM sys_role
+		WHERE id=#{id}
+	</select>
+
+
+	<sql id="Base_Column_List">
+		id, role_name, enabled, create_by, create_time
+	</sql>
+	
+	
+	<!-- 通过主键查询角色信息，自动生成。 @moon 2019/04/26 14:25 -->
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+</mapper>

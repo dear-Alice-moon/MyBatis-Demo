@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysRoleMapper5">
+	
+	<!-- 推荐：通过在mapper.java(interface接口)、mapper.xml中配置，开启MyBatis二级缓存。 -->
+	<cache eviction="FIFO" flushInterval="60000" size="1024" readOnly="false" />
+	
+	<resultMap id="sysRoleMap" type="com.moon.mybatis.pojo.SysRole5">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="role_name" jdbcType="VARCHAR" property="roleName" />
+		<result column="enabled" jdbcType="INTEGER" property="enabled" />
+		<result column="create_by" jdbcType="BIGINT" property="createBy" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	
+	
+	<!-- 通过主键更新角色信息. @moon 2019/09/07 19:11 -->
+	<update id="updateRoleById" parameterType="com.moon.mybatis.pojo.SysRole5">
+		UPDATE sys_role
+		SET role_name=#{roleName}, enabled=#{enabled},
+			create_by=#{createBy}, create_time=#{createTime}
+		WHERE id=#{id}
+	</update>
+	
+	
+	<!-- 通过主键查询角色信息. @moon 2019/09/07 18:41 -->
+	<select id="selectRoleById" parameterType="java.lang.Long" resultMap="sysRoleMap">
+		SELECT id,
+		role_name,
+		enabled,
+		create_by,
+		create_time
+		FROM sys_role
+		WHERE id=#{id}
+	</select>
+	
+	
+</mapper>

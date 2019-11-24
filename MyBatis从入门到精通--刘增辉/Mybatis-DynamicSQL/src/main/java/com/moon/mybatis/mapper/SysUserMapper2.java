@@ -1,8 +1,21 @@
 package com.moon.mybatis.mapper;
 
+import java.util.List;
+
 import com.moon.mybatis.pojo.SysUser;
 
 public interface SysUserMapper2 {
+	
+	
+	/**
+	 * 通过 List<Long> ids 查询 sysUser信息
+	 * 
+	 * @param ids
+	 * @return
+	 * 
+	 * @author moon  2019/11/24  19:11
+	 */
+	List<SysUser> selectUsersByIds(List<Long> ids);
 	
 	
 	/**

@@ -192,7 +192,7 @@ public class UserMapperTest extends BaseMapperTest {
 			sysUser2.setUserName("王安石");
 			System.out.println("验证是否插入了数据：" + userMapper.selectSysUserByIdOrUserName(sysUser2));
 			
-			
+			/*
 			System.out.println("------------------------------- Map参数，另一种INSERT传值方式--insertSysUserMap2(...)函数. -------------------------------");
 			Map<String, Object> userMap2 = new HashMap<String, Object>();
 			userMap2.put("user_name", "王小二");
@@ -239,14 +239,15 @@ public class UserMapperTest extends BaseMapperTest {
 			SysUser sysUser5 = new SysUser();
 			sysUser5.setUserName("李时珍");
 			System.out.println("验证是否插入了数据：" + userMapper.selectSysUserByIdOrUserName(sysUser5));
-			
+			*/
 			
 		} finally {
 			
 			// 提交事务
-			// sqlSession.commit();
+			sqlSession.commit();
+			
 			// 对事务进行回滚
-			sqlSession.rollback();
+			// sqlSession.rollback();
 			
 			// 关闭sqlSession
 			sqlSession.close();
@@ -274,11 +275,14 @@ public class UserMapperTest extends BaseMapperTest {
 			System.out.println("--------------------------- foreach标签，单参数List<T>集合测试 ---------------------------");
 			// 创建List<T> idList集合
 			List<Long> idList = new ArrayList<Long>();
+			List<Long> idList2 = new ArrayList<Long>();
 			idList.add(1L);
 			idList.add(1001L);
 			idList.add(1004L);
 			List<SysUser> sysUserList = userMapper.selectSysUserByIdList(idList);
+			List<SysUser> sysUserList22 = userMapper.selectSysUserByIdList(idList2);  // 验证MyBatis如何处理List<T>空集合入参
 			System.out.println("sysUserList值为： " + sysUserList.toString());
+			System.out.println("sysUserList22值为： " + sysUserList22.toString());  // 验证MyBatis如何处理List<T>空集合入参
 			
 			
 			// 创建List<T> userNameList集合

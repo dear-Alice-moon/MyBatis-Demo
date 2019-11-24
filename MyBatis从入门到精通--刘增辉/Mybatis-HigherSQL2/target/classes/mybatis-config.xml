@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	
+	<!-- MyBatis-config.xml文件标签的配置顺序，注意必须按照这个标签的先后顺序进配置，否则一些功能无法实现，会报错！ -->
+	<!-- 
+	XML 映射配置文件
+		MyBatis 的配置文件包含了影响 MyBatis 行为甚深的设置（settings）和属性（properties）信息。文档的顶层结构如下：
+
+			configuration 配置
+			properties 属性
+			settings 设置
+			typeAliases 类型命名
+			typeHandlers 类型处理器
+			objectFactory 对象工厂
+			plugins 插件
+			environments 环境
+				environment 环境变量
+					transactionManager 事务管理器
+					dataSource 数据源
+			databaseIdProvider 数据库厂商标识
+			mappers 映射器
+			
+		在配置 mybatis-config.xml 配置文件的时候，最关键的一点就是，必须按照上面标签的顺序进行配置。
+	 -->
+	
+	
+	<settings>
+		<!-- 其他配置  2019/01/20 12:28 -->
+		
+		<!-- Mybatis提供的全局属性mapUnderscoreToCamelCase，通过配置该属性值为true
+			可以自动将以下划线方式命名的数据列映射到Java对象的驼峰式命名属性中。
+			在这里，我不推荐使用这种方式。 @moon  2019/01/20  12:34                   
+		 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		
+		<!-- 启用延迟加载特性，不配置默认关闭该特性 -->
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<!-- 按需加载：false值，使用关联属性，及时加载;
+			 true值，加载对象，则加载所有属性。
+		 -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+		<!-- 
+			以后有时间看一看 MyBatis的参数: lazyLoadTriggerMethods               
+		 -->
+		
+		<!-- MyBatis框架集成使用Log4J日志框架 -->
+		<setting name="logImpl" value="LOG4J"/>
+		
+		
+	</settings>
+	
+	
+	<!-- 
+	<typeAliases>
+		<typeAlias alias="SysPrivilege" type="com.moon.mybatis.pojo.SysPrivilege"/>
+		<typeAlias alias="SysRole" type="com.moon.mybatis.pojo.SysRole"/>
+		<typeAlias alias="SysRolePrivilege" type="com.moon.mybatis.pojo.SysRolePrivilege"/>
+		<typeAlias alias="SysUser" type="com.moon.mybatis.pojo.SysUser"/>
+		<typeAlias alias="SysUserRole" type="com.moon.mybatis.pojo.SysUserRole"/>
+		
+	</typeAliases>
+	 -->
+	
+	<!-- 针对 com.moon.mybatis.enums.Enabled 枚举类型的 MyBatis框架配置信息.  @moon  2019/06/15  15:38 -->
+	<!-- 
+	<typeHandlers>
+		<typeHandler javaType="com.moon.mybatis.enums.Enabled" handler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+	</typeHandlers>
+	 -->
+	
+	<!-- 针对 com.moon.mybatis.enums.Enabled2 枚举类型的 MyBatis框架配置信息.  @moon  2019/06/22  16:25 -->
+	<typeHandlers>
+		<typeHandler javaType="com.moon.mybatis.enums.Enabled2" handler="com.moon.mybatis.handler.EnabledTypeHandler"/>
+	</typeHandlers>
+	
+	
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC">
+				<property name="" value="" />
+			</transactionManager>
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3306/mybatis" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+			
+		</environment>
+	</environments>
+	
+	
+	
+	<!-- <databaseIdProvider type=""></databaseIdProvider> -->
+	<!-- Mybatis对多数据库的支持 -->
+	<!-- 
+	<databaseIdProvider type="DB_VENDOR">
+		<property name="SQL Server" value="sqlServer" />
+		<property name="DB2" value="db2" />
+		<property name="Oracle" value="oracle" />
+		<property name="MySQL" value="mysql" />
+		<property name="PostgreSQL" value="postgresql" />
+		<property name="Derby" value="derby" />
+		<property name="HSQL" value="hsqldb" />
+		<property name="H2" value="h2" />
+	</databaseIdProvider>
+	 -->
+	
+	
+	<!-- 第一种配置，可顺利执行.  2019/01/18 18:55 -->
+	<!-- 配置一个包含完整类路径的Mapper.xml文件，这是Mybatis的SQL语句和映射配置文件 -->
+	<!-- 
+	<mappers>
+		<mapper resource="com/moon/mybatis/mapper/SysPrivilegeMapper.xml" />
+		<mapper resource="com/moon/mybatis/mapper/SysRoleMapper.xml" />
+		<mapper resource="com/moon/mybatis/mapper/SysRolePrivilegeMapper.xml" />
+		<mapper resource="com/moon/mybatis/mapper/SysUserMapper.xml" />
+		<mapper resource="com/moon/mybatis/mapper/SysUserRoleMapper.xml" />
+	</mappers>
+	 -->
+	
+	<!-- 第二种配置，可顺利执行.  2019/01/18 18:55 --> 
+	<mappers>
+		<package name="com.moon.mybatis.mapper"/>
+	</mappers>
+	
+	
+	
+</configuration>
+

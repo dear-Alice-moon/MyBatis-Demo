@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysUserMapper">
+	
+	
+	<resultMap id="BaseResultMap" type="com.moon.mybatis.pojo.SysUser">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+		<result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="user_info" jdbcType="LONGVARCHAR" property="userInfo" />
+		<result column="head_img" jdbcType="LONGVARBINARY" property="headImg" />
+	</resultMap>
+	
+	
+	
+	<!-- 查询所有 user 信息  @moon  2019/10/20  23:21 -->
+	<select id="selectAllUser" resultMap="BaseResultMap">
+		SELECT id,
+			user_name,
+			user_password,
+			user_email,
+			user_info,
+			head_img,
+			create_time
+		FROM sys_user
+	</select>
+	
+	
+	<!-- 通过主键查询用户信息， 自动生成。 @moon 2019/09/14  21:34 -->
+	<!-- 验证测试自写小驼峰插件 -->
+	<select id="selectByKeyId" parameterType="java.lang.Long" resultType="java.util.Map">
+		SELECT id,
+			user_name,
+			user_password,
+			user_email,
+			user_info,
+			head_img,
+			create_time
+		FROM sys_user
+		WHERE id = #{id}
+	</select>
+	
+	
+	<!-- 通过主键查询用户信息， 自动生成。 @moon 2019/09/07  21:34 -->
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		SELECT id,
+			user_name,
+			user_password,
+			user_email,
+			user_info,
+			head_img,
+			create_time
+		FROM sys_user
+		WHERE id = #{id}
+	</select>
+	
+	
+</mapper>

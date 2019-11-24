@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysPrivilegeMapper">
+  
+  
+  <resultMap id="BaseResultMap" type="com.moon.mybatis.pojo.SysPrivilege">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="privilege_name" jdbcType="VARCHAR" property="privilegeName" />
+    <result column="privilege_url" jdbcType="VARCHAR" property="privilegeUrl" />
+  </resultMap>
+  
+  
+  <resultMap id="sysPrivilegeMap" type="com.moon.mybatis.pojo.SysPrivilege">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="privilege_name" jdbcType="VARCHAR" property="privilegeName" />
+    <result column="privilege_url" jdbcType="VARCHAR" property="privilegeUrl" />
+  </resultMap>
+  
+  
+  
+  
+  <!-- 
+  	通过 roleId 查询 List<SysPrivilege> 信息      @moon  2019/04/28  10:52      
+  -->
+  <select id="selectPrivilegeByRoleId" parameterType="java.lang.Long" resultMap="sysPrivilegeMap">
+  	SELECT p.id,
+  		p.privilege_name,
+  		p.privilege_url
+  	FROM sys_privilege p
+  	INNER JOIN sys_role_privilege rp ON rp.privilege_id = p.id
+  	WHERE rp.role_id = #{roleId}
+  </select>
+  
+  
+  <sql id="Base_Column_List">
+    id, privilege_name, privilege_url
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_privilege
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+</mapper>

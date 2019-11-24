@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mybatis.mapper.SysUserMapper2">
+	
+	<!-- 通过在mapper.xml中配置，开启MyBatis二级缓存。 -->
+	<cache eviction="FIFO" flushInterval="60000" size="1024" readOnly="false" />
+	
+	<!-- Mybatis逆向生成工具自动生成的resultMap  @moon  2019/06/29 16:37  -->
+	<resultMap id="BaseResultMap" type="com.moon.mybatis.pojo.SysUser2">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+		<result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="user_info" jdbcType="LONGVARCHAR" property="userInfo" />
+		<result column="head_img" jdbcType="BLOB" property="headImg" />
+	</resultMap>
+	
+	
+	
+	
+	
+	<!-- 删除 SysUser 信息  @author moon  2019/06/29  17:04  -->
+	<delete id="deleteSysUser" parameterType="java.lang.Long">
+		DELETE FROM sys_user 
+		WHERE id = #{id}
+	</delete>
+	
+	
+	<!-- 更新 SysUser 信息   @author moon  2019/06/29  17:02   -->
+	<update id="updateSysUser" parameterType="com.moon.mybatis.pojo.SysUser">
+		UPDATE sys_user
+		<set>
+			<if test="null != userName and '' != userName">
+				user_name=#{userName}, 
+			</if>
+			<if test="null != userPassword and '' != userPassword">
+				user_password=#{userPassword},
+			</if>
+			<if test="null != userEmail and '' != userEmail">
+				user_email=#{userEmail},
+			</if>
+			<if test="null != userInfo and '' != userInfo">
+				user_info=#{userInfo},
+			</if>
+			<if test="null != createTime and '' != createTime">
+				create_time=#{createTime},
+			</if>
+			<if test="null != headImg and '' != headImg">
+				head_img=#{headImg}
+			</if>
+			id=#{id},
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 在这里，通过测试可知这种更新有误。
+		例如，当SysUser中不含 userName属性时，进行更新操作后，数据库中对应的 user_name字段值将变成null 
+	-->
+	<!-- 更新 SysUser 信息   @author moon  2019/06/29  17:02   -->
+	<update id="updateSysUser2" parameterType="com.moon.mybatis.pojo.SysUser">
+		UPDATE sys_user
+		SET user_name=#{userName}, 
+			user_password=#{userPassword},
+			user_email=#{userEmail},
+			user_info=#{userInfo},
+			create_time=#{createTime},
+			head_img=#{headImg}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 新增 SysUser 信息  @author moon  2019/06/29  16:58   -->
+	<insert id="insertSysUser" parameterType="com.moon.mybatis.pojo.SysUser" >
+		INSERT INTO sys_user(
+			id, user_name, user_password, user_email, 
+			user_info, create_time, head_img
+		) VALUES(
+			#{id}, #{userName}, #{userPassword}, #{userEmail},
+			#{userInfo}, #{createTime, jdbcType=TIMESTAMP}, #{headImg, jdbcType=BLOB}
+		)
+	</insert>
+	
+	
+	<!-- MyBatis逆向生成工具，自动生成的SQL语句。 -->
+	<!-- select标签中的子属性 flushCache="true"时，在查询数据前清空当前的一级缓存。不推荐使用 -->
+	<!-- <select id="selectByPrimaryKey" flushCache="true" parameterType="java.lang.Long" resultMap="BaseResultMap"> -->
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		SELECT id,
+			user_name, 
+			user_password,
+			user_email,
+			user_info,
+			create_time,
+			head_img
+		FROM sys_user
+		WHERE id = #{id}
+	</select>
+	
+	
+</mapper>

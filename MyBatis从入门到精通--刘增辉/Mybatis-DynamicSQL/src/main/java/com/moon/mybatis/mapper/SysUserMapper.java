@@ -158,7 +158,7 @@ public interface SysUserMapper {
 	 * 
 	 * @author moon  2019/02/16  15:39      
 	 */
-	List<SysUser> selectSysUserByIdList(List<Long> idList);
+	List<SysUser> selectSysUserByIdList(@Param(value="idLists") List<Long> idList);
 	
 	
 	/**

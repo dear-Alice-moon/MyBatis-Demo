@@ -1,0 +1,5 @@
+
+1、文件测试类存放在：mybatis-plus-firsts.src.test.java.com.moon.plus.SpringbootDemoApplicationTests.java
+
+2、
+

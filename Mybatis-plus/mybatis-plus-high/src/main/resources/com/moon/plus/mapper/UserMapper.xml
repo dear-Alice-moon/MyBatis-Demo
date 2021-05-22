@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.plus.dao.UserMapper">
+
+
+    <!-- 自定义SQL查询语句，可进行多表关联分页查询  @author moon  2020/08/11  22:36 -->
+
+
+</mapper>

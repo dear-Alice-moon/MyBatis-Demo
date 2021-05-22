@@ -1,0 +1,7 @@
+
+1、本Demo来源网址：https://www.imooc.com/learn/1171
+
+2、文件测试类存放在：mybatis-plus-firsts.src.test.java.com.moon.plus文件夹下
+
+3、
+

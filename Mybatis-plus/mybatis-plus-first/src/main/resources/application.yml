@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1/mybatis_plus?useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: root
+
+logging:
+  level:
+    root: warn
+    com.moon.plus.dao: trace
+  pattern:
+    console: '%p%m%n'
+mybatis-plus:
+  mapper-locations:
+    - com/moon/plus/mapper/*
+  global-config:
+    db-config:
+      id-type: uuid
+  config-location: classpath:mybatis-config.xml
+  type-aliases-package: com.moon.plus.pojo

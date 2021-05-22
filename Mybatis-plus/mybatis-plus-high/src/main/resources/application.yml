@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    # driver-class-name: com.mysql.jdbc.Driver  # mysql低版本jar包链接路径
+    # driver-class-name: com.mysql.cj.jdbc.Driver  # mysql-connector-javaL8.0.16.jar 包连接路径
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver  # p6spy链接路径，生产环境不建议使用，会损耗性能。
+    # url: jdbc:mysql://127.0.0.1/mybatis_plus?useSSL=false&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    url: jdbc:p6spy:mysql://127.0.0.1/mybatis_plus?useSSL=false&characterEncoding=UTF-8&serverTimezone=GMT%2B8  # p6spy链接路径
+    username: root
+    password: root
+
+logging:
+  level:
+    root: warn
+    com.moon.plus.dao: trace
+  pattern:
+    console: '%p%m%n'
+
+mybatis-plus:
+  mapper-locations:
+    - com/moon/plus/mapper/*
+  global-config:
+    db-config:
+      # id-type: uuid
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+    sql-parser-cache: true  # 3.1.1 版本及以下版本需要配置
+  config-location: classpath:mybatis-config.xml
+  type-aliases-package: com.moon.plus.pojo
+
+
+

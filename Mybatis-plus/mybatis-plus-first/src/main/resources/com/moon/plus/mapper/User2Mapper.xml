@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.plus.dao.User2Mapper">
+
+
+    <!-- 自定义SQL查询语句，可进行多表关联分页查询  @author moon  2020/08/02  19:00 -->
+    <!--<select id="selectUser2Page" resultType="com.moon.plus.pojo.User2">-->
+    <select id="selectUser2Page" resultType="User2">
+        SELECT id,
+               name,
+               age,
+               email,
+               manager_id,
+               create_time
+        FROM user ${ew.customSqlSegment}
+    </select>
+
+
+    <!-- 自定义SQL查询语句  @author moon  2020/08/02  19:00 -->
+    <!--<select id="selectAll2" resultType="com.moon.plus.pojo.User2">-->
+    <select id="selectAll2" resultType="User2">
+        SELECT id,
+               name,
+               age,
+               email,
+               manager_id,
+               create_time
+        FROM user ${ew.customSqlSegment}
+    </select>
+
+</mapper>

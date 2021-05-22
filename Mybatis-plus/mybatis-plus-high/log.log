@@ -1,0 +1,123 @@
+ Consume Time：12 ms 2020-09-05 17:47:19
+ Execute SQL：SELECT * FROM user WHERE age > 25 AND deleted = 0
+
+ Consume Time：6 ms 2020-09-05 17:47:55
+ Execute SQL：UPDATE user SET age=32, update_time='2020-09-05T17:47:55.508+0800' WHERE id=1088248166370832385 AND deleted=0
+
+ Consume Time：13 ms 2020-09-05 22:25:14
+ Execute SQL：SELECT id, name, age, email, manager_id, create_time, update_time, version FROM user WHERE user.manager_id = 1088248166370832385 AND id = 1094592041087729001 AND deleted = 0
+
+ Consume Time：10 ms 2020-09-05 22:29:06
+ Execute SQL：SELECT id, name, age, email, manager_id, create_time, update_time, version FROM user WHERE user.manager_id = 1088248166370832385 AND id = 1094592041087729001 AND deleted = 0
+
+ Consume Time：2 ms 2020-09-05 22:31:14
+ Execute SQL：UPDATE user SET age = 35, update_time = '2020-09-05T22:31:14.611+0800' WHERE user.manager_id = 1088248166370832385 AND id = 1088248166370832385 AND deleted = 0
+
+ Consume Time：2 ms 2020-09-05 22:32:45
+ Execute SQL：UPDATE user SET age = 18, email = 'ly2@baomidou.com', update_time = '2020-09-05T22:32:45.414+0800', version = 2 WHERE user.manager_id = 1088248166370832385 AND id = 1293581279953956865 AND version = 1 AND deleted = 0
+
+ Consume Time：4 ms 2020-09-05 22:38:05
+ Execute SQL：UPDATE user SET age = 21, email = 'lj2@baomidou.com', update_time = '2020-09-05T22:38:05.424+0800', version = 2 WHERE user.manager_id = 1088248166370832385 AND id = 1293581279953950001 AND version = 1 AND deleted = 0
+
+ Consume Time：42 ms 2020-09-06 10:07:40
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user WHERE id=1094592041087729001 AND deleted=0
+
+ Consume Time：9 ms 2020-09-06 10:11:22
+ Execute SQL：SELECT * FROM user WHERE user.manager_id = 1088248166370832385 AND age > 25 AND deleted = 0
+
+ Consume Time：10 ms 2020-09-06 10:13:26
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user WHERE id=1094592041087729001 AND deleted=0
+
+ Consume Time：10 ms 2020-09-06 10:14:11
+ Execute SQL：SELECT id, name, age, email, manager_id, create_time, update_time, version FROM user WHERE id = 1094592041087729001 AND deleted = 0
+
+ Consume Time：10 ms 2020-09-06 10:15:10
+ Execute SQL：SELECT id, name, age, email, manager_id, create_time, update_time, version FROM user WHERE user.manager_id = 1088248166370832385 AND id = 1094592041087729001 AND deleted = 0
+
+ Consume Time：10 ms 2020-09-06 10:23:00
+ Execute SQL：SELECT id, name, age, email, manager_id, create_time, update_time, version FROM user WHERE user.manager_id = 1088248166370832385 AND id = 1094592041087729001 AND deleted = 0
+
+ Consume Time：9 ms 2020-09-06 10:23:40
+ Execute SQL：SELECT id, name, age, email, manager_id, create_time, update_time, version FROM user WHERE user.manager_id = 1088248166370832385 AND id = 1094592041087729001 AND deleted = 0
+
+ Consume Time：9 ms 2020-09-06 10:24:04
+ Execute SQL：SELECT id, name, age, email, manager_id, create_time, update_time, version FROM user WHERE id = 1094592041087729001 AND deleted = 0
+
+ Consume Time：10 ms 2020-09-06 10:29:59
+ Execute SQL：SELECT * FROM user WHERE age > 25 AND deleted = 0
+
+ Consume Time：10 ms 2020-09-06 10:33:32
+ Execute SQL：SELECT id, name, age, email, manager_id, create_time, update_time, version FROM user WHERE id = 1094592041087729001 AND deleted = 0
+
+ Consume Time：9 ms 2020-09-06 10:34:00
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user WHERE id=1094592041087729001 AND deleted=0
+
+ Consume Time：10 ms 2020-09-06 10:35:28
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user WHERE id=1094592041087729001 AND deleted=0
+
+ Consume Time：10 ms 2020-09-06 10:36:29
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user WHERE id=1094592041087729001 AND deleted=0
+
+ Consume Time：9 ms 2020-09-06 10:37:00
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user WHERE id=1094592041087729001 AND deleted=0
+
+ Consume Time：9 ms 2020-09-06 10:38:36
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user WHERE id=1094592041087729001 AND deleted=0
+
+ Consume Time：9 ms 2020-09-06 10:41:01
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user WHERE id=1094592041087729001 AND deleted=0
+
+ Consume Time：9 ms 2020-09-06 10:41:43
+ Execute SQL：SELECT id, name, age, email, manager_id, create_time, update_time, version FROM user WHERE user.manager_id = 1088248166370832385 AND id = 1094592041087729001 AND deleted = 0
+
+ Consume Time：9 ms 2020-09-06 10:42:18
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user WHERE id=1094592041087729001 AND deleted=0
+
+ Consume Time：9 ms 2020-09-06 10:42:51
+ Execute SQL：SELECT * FROM user WHERE age > 25 AND deleted = 0
+
+ Consume Time：9 ms 2020-09-06 10:43:16
+ Execute SQL：SELECT * FROM user WHERE user.manager_id = 1088248166370832385 AND age > 25 AND deleted = 0
+
+ Consume Time：11 ms 2020-09-06 21:49:40
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user_2020 WHERE deleted=0
+
+ Consume Time：34 ms 2020-09-09 22:08:48
+ Execute SQL：SELECT id,name,age,email,manager_id,create_time,update_time,version FROM user WHERE id=1094592041087729001 AND deleted=0
+
+ Consume Time：6 ms 2020-09-09 22:17:47
+ Execute SQL：UPDATE user SET age=35, update_time='2020-09-09T22:17:47.231+0800' WHERE id=1088248166370832385 AND deleted=0
+
+ Consume Time：6 ms 2020-09-09 22:20:32
+ Execute SQL：UPDATE user_2020 SET age=36, update_time='2020-09-09T22:20:32.584+0800' WHERE id=1088248166370832385 AND deleted=0
+
+ Consume Time：6 ms 2020-09-09 22:24:58
+ Execute SQL：UPDATE user_2020 SET age=37, update_time='2020-09-09T22:24:58.052+0800' WHERE id=1088248166370832385 AND deleted=0
+
+ Consume Time：13 ms 2020-09-09 22:25:34
+ Execute SQL：UPDATE user SET age=38, update_time='2020-09-09T22:25:34.554+0800' WHERE id=1088248166370832385 AND deleted=0
+
+ Consume Time：4 ms 2020-09-09 22:26:15
+ Execute SQL：UPDATE user1 SET age=38, update_time='2020-09-09T22:26:15.182+0800' WHERE id=1088248166370832385 AND deleted=0
+
+ Consume Time：15 ms 2020-09-13 17:06:17
+ Execute SQL：DELETE FROM user
+
+ Consume Time：3 ms 2020-09-13 22:42:01
+ Execute SQL：DELETE FROM user
+
+ Consume Time：6 ms 2020-09-13 22:54:04
+ Execute SQL：INSERT INTO user (id,name,age,email,manager_id,create_time,update_time,version) VALUES (1305157804931170306,'李兴华',34,NULL,1088248166370832385,'2020-09-13T22:54:04.017',NULL,NULL) , (1305157804952141826,'杨红',29,NULL,1088248166370832385,'2020-09-13T22:54:04.017',NULL,NULL)
+
+ Consume Time：6 ms 2020-09-13 22:57:55
+ Execute SQL：INSERT INTO user (id,name,email,manager_id,create_time,update_time,version) VALUES (1305158775841284097,'李兴华222',NULL,1088248166370832385,'2020-09-13T22:57:55.499',NULL,NULL) , (1305158775862255618,'杨红222',NULL,1088248166370832385,'2020-09-13T22:57:55.500',NULL,NULL)
+
+ Consume Time：55 ms 2020-09-14 22:27:41
+ Execute SQL：UPDATE user SET age=38,update_time='2020-09-14T22:27:41.224+0800',deleted=1 WHERE id=1305157804931170306 AND deleted=0
+
+ Consume Time：3 ms 2020-09-14 22:31:29
+ Execute SQL：UPDATE user SET age=39,update_time='2020-09-14T22:31:29.682+0800',deleted=1 WHERE id=1305157804931170306 AND deleted=0
+
+ Consume Time：6 ms 2020-09-14 22:48:01
+ Execute SQL：UPDATE user SET age=33, email=NULL, manager_id=NULL, create_time=NULL, update_time='2020-09-14T22:48:01.473+0800', version=NULL WHERE id=1088248166370832385 AND deleted=0
+
